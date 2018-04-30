@@ -6,7 +6,7 @@ function equals(tilesA, tilesB) {
     for (let i = 0; i < tilesA.length; ++i) {
         if (tilesA[i].length != tilesB[i].length)
             return false;
-        for (let j = 0; j < tilesA[i].length; ++i) {
+        for (let j = 0; j < tilesA[i].length; ++j) {
             if (tilesA[i][j] !== tilesB[i][j])
                 return false;
         }
