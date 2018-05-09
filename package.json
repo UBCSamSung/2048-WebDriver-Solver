@@ -1,16 +1,21 @@
 {
   "devDependencies": {
+    "@types/jest": "^22.2.3",
     "@types/selenium-webdriver": "^3.0.8",
     "chromedriver": "^2.38.2",
+    "fs": "0.0.1-security",
     "geckodriver": "^1.11.0",
+    "jest": "^22.4.3",
     "selenium-webdriver": "^4.0.0-alpha.1",
+    "ts-jest": "^22.4.4",
     "typescript": "^2.8.3"
   },
   "name": "puzzle-solver",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && node ./dist/script/example.js"
+    "test": "jest",
+    "start": "tsc && node ./dist/script/main.js"
   },
   "license": "MIT"
 }

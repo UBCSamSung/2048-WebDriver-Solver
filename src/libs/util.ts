@@ -1,12 +1,5 @@
-export  function equals(tilesA:number[][], tilesB:number[][]):boolean {
-    if (tilesA.length!==tilesB.length) return false;
-    for (let i = 0; i < tilesA.length; ++i) {
-        if (tilesA[i].length != tilesB[i].length) return false;
-        for (let j = 0; j < tilesA[i].length; ++j) {
-            if (tilesA[i][j]!==tilesB[i][j]) return false;
-        }
-    }
-    return true;
+export  function equals(a1:number[], a2:number[]):boolean {
+    return a1.length==a2.length && a1.every((v,i)=> v === a2[i]);
 }
 
 export function toString(tiles:number[][]): string {
@@ -18,4 +11,8 @@ export function toString(tiles:number[][]): string {
         str += '\n';
     }
     return str;
+}
+
+export function isPowerOfTwo(x:number):boolean {
+    return (x != 0) && ((x & (x - 1)) == 0);
 }
