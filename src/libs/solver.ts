@@ -1,54 +1,53 @@
-import { Builder, By, Key, until, WebElement, WebDriver, ThenableWebDriver } from 'selenium-webdriver';
+import { Builder, By, Key, ThenableWebDriver, until, WebDriver, WebElement } from 'selenium-webdriver';
 import { Driver } from 'selenium-webdriver/ie';
-import { Bot } from "../libs/bot";
-import { Board } from './grid';
-
+import { Bot } from '../libs/bot';
+import { Board } from './board';
 
 export class Solver {
 
-  url: string;
-  delay: number;
-  driver?: WebDriver;
-  bot: Bot;
-  moves:{[key:string]:string} = {
-    'UP':Key.ARROW_UP,
-    'DOWN':Key.ARROW_DOWN,
-    'LEFT':Key.ARROW_LEFT,
-    'RIGHT':Key.ARROW_RIGHT,    
+  public url: string;
+  public delay: number;
+  public driver?: WebDriver;
+  public bot: Bot;
+  public moves: { [key: string]: string } = {
+    DOWN: Key.ARROW_DOWN,
+    LEFT: Key.ARROW_LEFT,
+    RIGHT: Key.ARROW_RIGHT,
+    UP: Key.ARROW_UP,
   };
 
   constructor() {
-    this.url = "http://2048game.com";
+    this.url = 'http://2048game.com';
     this.delay = 0.2 * 1000;
     this.bot = new Bot();
   }
-  async init() {
+  public async init() {
     const driver = await new Builder().forBrowser('chrome').build();
     await driver.get(this.url);
     await driver.wait(until.titleContains('2048'), 1000);
     await driver.wait(until.elementIsVisible(driver.findElement(By.className('tile-container'))));
     this.driver = driver;
   }
-  async run() {
-    let isGameOver = false;
+  public async run() {
+    const isGameOver = false;
     let retryCount = 0;
     if (this.driver) {
       const driver = this.driver;
       try {
         while (!isGameOver) {
-          const isUpdate = await this.update(driver);
+          const isUpdate = await this.update();
           if (isUpdate) {
             retryCount = 0;
             const nextMove = this.calculate();
-            await this.move(driver, nextMove);
+            await this.move(nextMove);
           } else {
             if (retryCount > 3) {
               console.log('Timed out');
               break;
             }
-            retryCount ++;
+            retryCount++;
           }
-          await this.sleep(driver, 200);
+          await this.sleep(200);
         }
       } catch (error) {
         console.log(error);
@@ -57,33 +56,43 @@ export class Solver {
       }
     }
   }
-  async  sleep(driver: WebDriver, time: number): Promise<void> {
-    driver.sleep(time);
+  public async  sleep(time: number): Promise<void> {
+    const driver = this.driver;
+    if (driver) {
+      driver.sleep(time);
+    }
   }
 
-  calculate() {
+  public calculate() {
     const bot = this.bot;
     return this.moves[bot.calcuateNextMove()];
   }
 
-  async update(driver: WebDriver): Promise<boolean> {
-    const grid = await this.parseGrid(driver);
-    const bot = this.bot;
-    const isUpdated = bot.syncBoard(new Board(grid.join()));
-    if (isUpdated) {
-      console.log(bot.getScore());
-      bot.print();
+  public async update(): Promise<boolean> {
+    const driver = this.driver;
+    let isUpdated = false;
+    if (driver) {
+      const grid = await this.parseGrid(driver);
+      const bot = this.bot;
+      isUpdated = bot.syncBoard(new Board(grid.join()));
+      if (isUpdated) {
+        console.log(bot.getScore());
+        bot.print();
+      }
     }
     return isUpdated;
   }
 
-  async  move(driver: WebDriver, move: string) {
-    let window = await driver.findElement(By.xpath("/html"));
-    await window.sendKeys(move);
+  public async  move(move: string) {
+    const driver = this.driver;
+    if (driver) {
+      const window = await driver.findElement(By.xpath('/html'));
+      await window.sendKeys(move);
+    }
   }
 
-  async  parseGrid(driver: WebDriver) {
-    let grid: number[] = new Array();
+  public async  parseGrid(driver: WebDriver) {
+    const grid: number[] = new Array();
     while (true) {
       for (let x = 0; x < 4; ++x) {
         for (let y = 0; y < 4; ++y) {
@@ -102,5 +111,3 @@ export class Solver {
     }
   }
 }
-
-

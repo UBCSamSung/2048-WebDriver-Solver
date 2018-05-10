@@ -1,5 +1,5 @@
 import 'chromedriver';
-import { Builder, ThenableWebDriver, WebElement, By, WebElementPromise } from 'selenium-webdriver';
+import { Builder, By, ThenableWebDriver, WebElement, WebElementPromise } from 'selenium-webdriver';
 
 export class Browser {
     private driver: ThenableWebDriver;

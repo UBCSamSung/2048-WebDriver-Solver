@@ -15,7 +15,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "tsc && node ./dist/script/main.js"
+    "start": "tsc && node ./dist/script/main.js",
+    "lint": "tslint -p tsconfig.json -c tslint.json --fix 'src/**/*.ts{,x}'"
   },
   "license": "MIT"
 }

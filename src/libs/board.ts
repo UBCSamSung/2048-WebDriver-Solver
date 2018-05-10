@@ -1,4 +1,4 @@
-import { isPowerOfTwo, equals } from "./util";
+import { isPowerOfTwo, equals } from './util';
 
 export class Board {
     constructor(str?:string) {
@@ -25,7 +25,7 @@ export class Board {
 
     set(x: number, y: number, val: number) {
         if (!isPowerOfTwo(val)) {
-            throw "invalid number";
+            throw 'invalid number';
         }
         let isWithinGrid = (x: number) => { return (x > 0 && x < 4) }
         if (!isWithinGrid(y)) {
@@ -45,8 +45,9 @@ export class Board {
         let rawGrid = str.split(',');
         let newGrid = new Array(16);
         newGrid.fill(0);
-        if (rawGrid.length != 4 * 4)
-            throw "invalid string";
+        if (rawGrid.length != 4 * 4) {
+            throw 'invalid string';
+        }
         rawGrid.forEach((val, i) => {
             let num = parseInt(val);
             if (isPowerOfTwo(num)) {
@@ -110,7 +111,7 @@ export class Board {
                 this.rotateRight();
                 break;
             default:
-                throw "incorrect input";
+                throw 'incorrect input';
         }
     }
 
@@ -129,5 +130,13 @@ export class Board {
     calculateScore() {
         let grid = this.grid;
         return grid.reduce(((acc, curr)=>{return acc+curr;}));
+    }
+
+    countEmptySpot() {
+        let grid = this.grid;
+        return grid.reduce(((acc, curr)=>{
+            if (curr==0) return acc+1;
+            else return acc;
+        }));
     }
 }

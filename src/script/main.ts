@@ -1,4 +1,4 @@
-import { Solver } from "../libs/solver";
+import { Solver } from '../libs/solver';
 
 async function main() {
     const solver = new Solver();
