@@ -16,3 +16,29 @@ export function toString(tiles: number[][]): string {
 export function isPowerOfTwo(x: number): boolean {
     return (x != 0) && ((x & (x - 1)) == 0);
 }
+
+export function moveLeft(grid: number[]) {
+    grid.forEach((v, i) => {
+        const leftIndex = i;
+        const rightIndex = Math.floor(i / 4) * 4 + 3;
+        let currIndex = i + 1;
+        while (currIndex <= rightIndex) {
+            if (grid[currIndex] == 0) {
+                currIndex++;
+                continue;
+            }
+            else if (grid[leftIndex] == 0) {
+                let value = grid[currIndex];
+                grid[currIndex] = 0;
+                grid[leftIndex] = value;
+            }
+            else if (grid[currIndex] == grid[leftIndex]) {
+                grid[currIndex] = 0;
+                grid[leftIndex] *= 2;
+            } else {
+                break;
+            }
+        }
+    });
+    return grid;
+}

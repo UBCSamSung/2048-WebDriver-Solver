@@ -20,14 +20,14 @@ describe('test game board', () => {
     test('set from string', () => {
         const testGridStr = '0,0,0,2,0,0,2,2,4,0,2,2,2,2,2,2';
         expect(boardA.toString()).toBe(newGridStr);
-        boardA.setFromString(testGridStr);
+        boardA.fromString(testGridStr);
         expect(boardA.toString()).toBe(testGridStr);
     });
 
     test('move left', () => {
         const testGridStr = '0,0,0,2,0,0,2,2,4,0,2,2,2,2,2,2';
         const expectGridStr = '2,0,0,0,4,0,0,0,4,4,0,0,4,4,0,0';
-        boardA.setFromString(testGridStr);
+        boardA.fromString(testGridStr);
         boardA.moveLeft();
         expect(boardA.toString()).toBe(expectGridStr);
     });
@@ -35,7 +35,7 @@ describe('test game board', () => {
     test('rotate right', () => {
         const testGridStr = '2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0';
         const expectGridStr = '0,0,0,2,0,0,0,2,0,0,0,2,0,0,0,2';
-        boardA.setFromString(testGridStr);
+        boardA.fromString(testGridStr);
         boardA.rotateRight();
         expect(boardA.toString()).toBe(expectGridStr);
     });
@@ -43,7 +43,7 @@ describe('test game board', () => {
     test('move down', () => {
         const testGridStr = '0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0';
         const expectGridStr = '0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0';
-        boardA.setFromString(testGridStr);
+        boardA.fromString(testGridStr);
         boardA.move('D');
         expect(boardA.toString()).toBe(expectGridStr);
     });
@@ -51,13 +51,13 @@ describe('test game board', () => {
     test('calculate score', () => {
         const testGridStr = '0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0';
         expect(boardA.calculateScore()).toBe(0);
-        boardB.setFromString(testGridStr);
+        boardB.fromString(testGridStr);
         expect(boardB.calculateScore()).toBe(4);
     });
     test('count empty spot', () => {
         expect(boardA.countEmptySpot()).toBe(15);
         const testGridStr = '0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0';
-        boardB.setFromString(testGridStr);
+        boardB.fromString(testGridStr);
         expect(boardB.countEmptySpot()).toBe(13);
     });
 });

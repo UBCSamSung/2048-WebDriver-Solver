@@ -35,19 +35,23 @@ export class Solver {
       const driver = this.driver;
       try {
         while (!isGameOver) {
-          const isUpdate = await this.update();
+          const isUpdate = await this.update(true);
           if (isUpdate) {
             retryCount = 0;
             const nextMove = this.calculate();
             await this.move(nextMove);
+          } else if (retryCount < 5) {
+            const nextMove = this.calculate();
+            await this.move(nextMove);
           } else {
-            if (retryCount > 3) {
+            if (retryCount > 5) {
               console.log('Timed out');
+              this.bot.print();
               break;
             }
             retryCount++;
           }
-          await this.sleep(200);
+          await this.sleep(1000);
         }
       } catch (error) {
         console.log(error);
@@ -59,22 +63,30 @@ export class Solver {
   public async  sleep(time: number): Promise<void> {
     const driver = this.driver;
     if (driver) {
-      driver.sleep(time);
+      await driver.sleep(time);
     }
   }
 
   public calculate() {
     const bot = this.bot;
-    return this.moves[bot.calcuateNextMove()];
+    const nextMove = bot.calcuateNextMove();
+    console.log(`Move ${nextMove}!`);    
+    return this.moves[nextMove];
   }
 
-  public async update(): Promise<boolean> {
+  public async update(force?:boolean): Promise<boolean> {
     const driver = this.driver;
     let isUpdated = false;
     if (driver) {
       const grid = await this.parseGrid(driver);
       const bot = this.bot;
-      isUpdated = bot.syncBoard(new Board(grid.join()));
+      const newBoard = new Board(grid.join());
+      if (force) {
+        bot.setBoard(newBoard);
+        bot.print();
+        return true;
+      }
+      isUpdated = bot.syncBoard(newBoard);
       if (isUpdated) {
         console.log(bot.getScore());
         bot.print();

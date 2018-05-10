@@ -1,4 +1,4 @@
-import { isPowerOfTwo, equals } from './util';
+import { isPowerOfTwo, equals, moveLeft } from './util';
 
 export class Board {
     constructor(str?:string) {
@@ -6,7 +6,7 @@ export class Board {
         grid.fill(0);
         this.grid = grid;
         if (str) {
-            this.setFromString(str);
+            this.fromString(str);
         }
     }
 
@@ -41,7 +41,7 @@ export class Board {
         return this.grid[y * 4 + x];
     }
 
-    setFromString(str: string) {
+    fromString(str: string) {
         let rawGrid = str.split(',');
         let newGrid = new Array(16);
         newGrid.fill(0);
@@ -58,30 +58,7 @@ export class Board {
     }
 
     moveLeft() {
-        let grid = this.grid;
-        grid.forEach((v, i) => {
-            const leftIndex = i;
-            const rightIndex = Math.floor(i / 4) * 4 + 3;
-            let currIndex = i + 1;
-            while (currIndex <= rightIndex) {
-                if (grid[currIndex] == 0) {
-                    currIndex++;
-                    continue;
-                }
-                else if (grid[leftIndex] == 0) {
-                    let value = grid[currIndex];
-                    grid[currIndex] = 0;
-                    grid[leftIndex] = value;
-                }
-                else if (grid[currIndex] == grid[leftIndex]) {
-                    grid[currIndex] = 0;
-                    grid[leftIndex] *= 2;
-                } else {
-                    break;
-                }
-            }
-        });
-        this.grid = grid;
+        return moveLeft(this.grid);
     }
 
     move(input: string) {
