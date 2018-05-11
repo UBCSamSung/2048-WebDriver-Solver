@@ -42,3 +42,18 @@ export function moveLeft(grid: number[]) {
     });
     return grid;
 }
+
+
+
+export function rotateRight(grid:number[]) {
+    let oldGrid = grid;
+    let newGrid: number[] = new Array(oldGrid.length);
+    newGrid.fill(0);
+    const width = Math.floor(Math.sqrt(oldGrid.length));
+    oldGrid.forEach((v, i) => {
+        const x = i % width;
+        const y = Math.floor(i / width);
+        newGrid[width-1-y + x * width] = v;
+    });
+    return newGrid;
+}

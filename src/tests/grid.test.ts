@@ -10,54 +10,11 @@ describe('test game board', () => {
         boardA = new Board();
         boardB = new Board();
     });
-    test('setter', () => {
-        boardA.set(1, 3, Math.pow(2, 4));
-        expect(boardA.equals(boardB)).toBeFalsy();
-        boardB.set(1, 3, Math.pow(2, 4));
-        expect(boardA.equals(boardB)).toBeTruthy();
-    });
 
     test('set from string', () => {
         const testGridStr = '0,0,0,2,0,0,2,2,4,0,2,2,2,2,2,2';
         expect(boardA.toString()).toBe(newGridStr);
         boardA.fromString(testGridStr);
         expect(boardA.toString()).toBe(testGridStr);
-    });
-
-    test('move left', () => {
-        const testGridStr = '0,0,0,2,0,0,2,2,4,0,2,2,2,2,2,2';
-        const expectGridStr = '2,0,0,0,4,0,0,0,4,4,0,0,4,4,0,0';
-        boardA.fromString(testGridStr);
-        boardA.moveLeft();
-        expect(boardA.toString()).toBe(expectGridStr);
-    });
-
-    test('rotate right', () => {
-        const testGridStr = '2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0';
-        const expectGridStr = '0,0,0,2,0,0,0,2,0,0,0,2,0,0,0,2';
-        boardA.fromString(testGridStr);
-        boardA.rotateRight();
-        expect(boardA.toString()).toBe(expectGridStr);
-    });
-
-    test('move down', () => {
-        const testGridStr = '0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0';
-        const expectGridStr = '0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0';
-        boardA.fromString(testGridStr);
-        boardA.move('D');
-        expect(boardA.toString()).toBe(expectGridStr);
-    });
-
-    test('calculate score', () => {
-        const testGridStr = '0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0';
-        expect(boardA.calculateScore()).toBe(0);
-        boardB.fromString(testGridStr);
-        expect(boardB.calculateScore()).toBe(4);
-    });
-    test('count empty spot', () => {
-        expect(boardA.countEmptySpot()).toBe(15);
-        const testGridStr = '0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0';
-        boardB.fromString(testGridStr);
-        expect(boardB.countEmptySpot()).toBe(13);
     });
 });

@@ -9,14 +9,14 @@ describe('Bot test', () => {
     });
 
     test('Test get score', () => {
-        expect(bot.getScore()).toBe(2);
+        expect(bot.getScore()).toBe(0);
     });
 
     test('Test sync board', () => {
         const testBoard = new Board('0,0,0,2,0,0,2,2,4,0,2,2,2,2,2,2');
         const testBoard2 = new Board('0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2');
         bot.syncBoard(testBoard);
-        expect(bot.getScore()).toBe(2);
+        expect(bot.getScore()).toBe(0);
         bot.syncBoard(testBoard2);
         expect(bot.getScore()).toBe(4);
     });

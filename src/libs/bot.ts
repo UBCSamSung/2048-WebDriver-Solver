@@ -1,13 +1,11 @@
 import { Board } from '../libs/board';
 import { Browser } from '../libs/browser';
+import * as util from '../libs/util';
 
 export class Bot {
 
     rotate(grid: number[]): any {
-        return new Array(grid[12], grid[8], grid[4], grid[0],
-            grid[13], grid[9], grid[5], grid[1],
-            grid[14], grid[10], grid[6], grid[2],
-            grid[15], grid[11], grid[7], grid[3]);
+        return util.rotateRight(grid);
     }
     moveLeft(grid: number[]): [number[], number] {
         var k = 0;
@@ -42,7 +40,6 @@ export class Bot {
 
     constructor() {
         this.board = new Board();
-        this.board.set(1, 1, 2);
         this.browser = new Browser('chrome');
     }
 
@@ -93,9 +90,13 @@ export class Bot {
     }
 
     public startSearch() {
-        this.max_depth = 3;
+        this.max_depth = 2;
         this.node = 0;
-        this.search(this.board.grid, 0);
+        while (true) {
+            this.search(this.board.grid, 0);
+            if (this.node > 2000 || this.max_depth >=8) break;
+            this.max_depth++;
+        }
         return this.bestOperation;
     }
 

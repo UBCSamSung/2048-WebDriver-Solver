@@ -1,5 +1,5 @@
 import { Builder, By, Key, ThenableWebDriver, until, WebDriver, WebElement } from 'selenium-webdriver';
-import { Driver } from 'selenium-webdriver/ie';
+import chrome from 'selenium-webdriver/chrome';
 import { Bot } from '../libs/bot';
 import { Board } from './board';
 
@@ -18,11 +18,12 @@ export class Solver {
 
   constructor() {
     this.url = 'http://2048game.com';
-    this.delay = 0.2 * 1000;
+    this.delay = 0.1 * 1000;
     this.bot = new Bot();
   }
   public async init() {
-    const driver = await new Builder().forBrowser('chrome').build();
+    const driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().headless()).build();
+    // const driver = await new Builder().forBrowser('chrome').build();
     await driver.get(this.url);
     await driver.wait(until.titleContains('2048'), 1000);
     await driver.wait(until.elementIsVisible(driver.findElement(By.className('tile-container'))));
@@ -51,7 +52,7 @@ export class Solver {
             }
             retryCount++;
           }
-          await this.sleep(1000);
+          await this.sleep(this.delay);
         }
       } catch (error) {
         console.log(error);
@@ -110,8 +111,14 @@ export class Solver {
         for (let y = 0; y < 4; ++y) {
           const index = y * 4 + x;
           const className = `tile-position-${x + 1}-${y + 1}`;
+          const className2 = 'tile-merged';
           try {
-            const text = await driver.findElement(By.className(className)).getText();
+            let text = ''
+            try {
+              text = await driver.findElement(By.css(`.${className}.${className2}`)).getText();
+            } catch (error) {
+              text = await driver.findElement(By.css(`.${className}`)).getText();              
+            }
             const num = parseInt(text);
             grid[index] = num;
           } catch (error) {
