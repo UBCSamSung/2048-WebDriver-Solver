@@ -22,8 +22,8 @@ export class Solver {
     this.bot = new Bot();
   }
   public async init() {
-    const driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().headless()).build();
-    // const driver = await new Builder().forBrowser('chrome').build();
+    // const driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options().headless()).build();
+    const driver = await new Builder().forBrowser('chrome').build();
     await driver.get(this.url);
     await driver.wait(until.titleContains('2048'), 1000);
     await driver.wait(until.elementIsVisible(driver.findElement(By.className('tile-container'))));
