@@ -1,5 +1,7 @@
 # 2048 WebDriver Solver
 
+![Preview](/res/2048.gif)
+
 Selenium WebDriver is used to parse interactive web elements and simulate user input.  
 AI ultilizes bruteforce iterative deepening breath first search on grid state using `neighbourhood difference` as loss function.
 
@@ -29,6 +31,11 @@ Jest unit test for each classes
 ```
 npm test
 ```
+
+## Result
+
+Highest score during testing
+![Preview](/res/final.png)
 
 ## Built With
 
