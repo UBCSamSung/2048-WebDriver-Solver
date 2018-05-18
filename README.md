@@ -3,7 +3,7 @@
 ![Preview](/res/2048.gif)
 
 Selenium WebDriver is used to parse interactive web elements and simulate user input.  
-AI ultilizes bruteforce iterative deepening breath first search on grid state using `neighbourhood difference` as loss function.
+AI ultilizes bruteforce time-bounded breath first search on grid state using neighbourhood difference as heuristic function.
 
 ## Getting Started
 
